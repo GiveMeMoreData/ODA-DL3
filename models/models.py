@@ -34,7 +34,7 @@ class ResnetBlock(tf.keras.Model):
 
 
 class SmallResNet(models.Sequential):
-    def __init__(self, n=3, l2=0.01, **kwargs):
+    def __init__(self, n=3, l2=0, **kwargs):
         super(SmallResNet, self).__init__(**kwargs)
         assert (n >= 3)
         self._build_model(n, l2)
