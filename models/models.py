@@ -32,11 +32,11 @@ class ResnetBlock(tf.keras.Model):
         x += self.shortcut(input_tensor)
         return tf.nn.relu(x)
 
-
 class SmallResNet(models.Sequential):
-    def __init__(self, n=3, l2=0.01, **kwargs):
+    def __init__(self, n=3, l2=0, **kwargs):
         super(SmallResNet, self).__init__(**kwargs)
         assert (n >= 3)
+        self.model_name = "ResNet{0}".format(n*6+2)
         self._build_model(n, l2)
         self.n_layers = None
 
@@ -69,11 +69,12 @@ class SmallResNet(models.Sequential):
         
         
 class DenseNet(models.Sequential):
-    def __init__(self, dropout=0, **kwargs):
+    def __init__(self, dropout = 0, **kwargs):
         super(DenseNet, self).__init__(**kwargs)
+        self.model_name = "DenseNet"
         self.dropout = dropout
         self._build_model()
-
+        
     def _build_model(self):
         self.add(layers.Flatten())
         self.add(layers.Dense(256, activation='relu', kernel_initializer='he_uniform'))
@@ -89,11 +90,11 @@ class DenseNet(models.Sequential):
         self.add(layers.Dense(64, activation='relu', kernel_initializer='he_uniform'))
         self.add(layers.Dropout(self.dropout))
         self.add(layers.Dense(10, activation='softmax'))
-
-
+        
 class SimpleCNN(models.Sequential):
-    def __init__(self, dropout=0, **kwargs):
+    def __init__(self, dropout = 0, **kwargs):
         super(SimpleCNN, self).__init__(**kwargs)
+        self.model_name = "SimpleCNN"
         self.dropout = dropout
         self._build_model()
 
